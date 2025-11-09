@@ -1,0 +1,19 @@
+{
+  "agent": {
+    "default_model": {
+      "provider": "ollama",
+      "model": "gemma3:4b"
+    },
+    "model_parameters": []
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": "Catppuccin Mocha (Blur) [Heavy]",
+  // --- Window Appearance Settings ---
+  "window_background_opacity": 0.85, // Adjust this value (0.0 to 1.0)
+  "window_background_blur_and_vibrancy": true, // Set to true to enable the blur effect
+  // ----------------------------------
+  "active_pane_modifiers": {
+    "inactive_opacity": 0.2
+  }
+}
