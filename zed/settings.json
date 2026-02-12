@@ -1,8 +1,8 @@
 {
   "agent": {
     "default_model": {
-      "provider": "ollama",
-      "model": "gemma3:4b"
+      "provider": "copilot_chat",
+      "model": "gpt-5-mini"
     },
     "model_parameters": []
   },
