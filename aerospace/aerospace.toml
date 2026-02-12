@@ -40,3 +40,16 @@ alt-3 = 'workspace 3'
 # Envoyer la fenêtre vers un workspace
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-2 = 'move-node-to-workspace 2'
+
+
+# Exclude Apps
+
+# System reglages
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = ['layout floating']
+
+# Finder
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = ['layout floating']
