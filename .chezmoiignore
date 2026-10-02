@@ -18,6 +18,8 @@ AppData
 
 {{ if ne .chezmoi.os "darwin" }}
 Library
+.config/sketchybar
+.config/borders
 {{ end }}
 
 {{- /* VS Code : ~/.config/Code uniquement sous Linux */}}
