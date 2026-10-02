@@ -1,33 +1,25 @@
 # Ghostty — géré par chezmoi. Référence : `ghostty +show-config --default --docs`
 
-# --- Apparence -----------------------------------------------------------------
-font-family = JetBrainsMono Nerd Font
-font-size = 14
-# Suit l'apparence du système (cf. réglage macOS « apparence automatique »)
-theme = light:Catppuccin Latte,dark:Catppuccin Mocha
-background-opacity = 0.95
-background-blur-radius = 20
-window-padding-x = 8
-window-padding-y = 6
-macos-titlebar-style = tabs
-cursor-style = block
-cursor-style-blink = false
-mouse-hide-while-typing = true
+# --- Apparence ---
+theme = Catppuccin Mocha
+font-family = MesloLGS Nerd Font Mono
+font-size = 16
+font-thicken = true
+background-opacity = 0.8
+background-blur-radius = 25
+# macos-titlebar-style = hidden
 
-# --- Comportement ----------------------------------------------------------------
-window-save-state = always
-confirm-close-surface = false
-copy-on-select = clipboard
-scrollback-limit = 25000000
-# Intégration shell : curseur, titre, et `sudo` qui conserve le terminfo de Ghostty
-shell-integration-features = cursor,sudo,title
+# --- Splits (préfixe ctrl+s, façon tmux) ---
+keybind = ctrl+s>l=new_split:right
+keybind = ctrl+s>h=new_split:left
+keybind = ctrl+s>k=new_split:up
+keybind = ctrl+s>j=new_split:down
+keybind = ctrl+s>p=goto_split:previous
+keybind = ctrl+s>n=goto_split:next
+keybind = ctrl+s>d=close_window
 
-# Option gauche = Alt (Option+flèches, vim…). Option droite reste libre pour les
-# caractères spéciaux du clavier AZERTY ({ } [ ] | \ ~ @ #).
+# --- Ajouts ---
+# Option gauche = Alt ; l'Option droite reste libre pour les caractères AZERTY ({ } [ ] | \ ~ @ #)
 macos-option-as-alt = left
-
-# --- Terminal « quick » façon console déroulante -----------------------------------
-# Raccourci global : nécessite d'autoriser Ghostty dans Réglages Système > Confidentialité > Accessibilité
-keybind = global:ctrl+alt+space=toggle_quick_terminal
-quick-terminal-position = top
-quick-terminal-screen = mouse
+# `sudo` conserve le terminfo de Ghostty
+shell-integration-features = cursor,sudo,title

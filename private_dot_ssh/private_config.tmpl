@@ -2,6 +2,10 @@
 # Hôtes propres à la machine : ajouter des fichiers dans ~/.ssh/config.d/
 Include config.d/*
 
+{{- if eq .chezmoi.os "darwin" }}
+Include {{ .chezmoi.homeDir }}/.colima/ssh_config
+{{- end }}
+
 Host *
     AddKeysToAgent yes
 {{- if eq .chezmoi.os "darwin" }}
