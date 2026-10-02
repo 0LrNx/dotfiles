@@ -1,6 +1,5 @@
 {{- /* Fichiers du dépôt qui ne sont pas des dotfiles */ -}}
 README.md
-LICENSE
 
 {{- /* Cibles à ne pas déployer selon l'OS (chemins de destination) */}}
 {{ if eq .chezmoi.os "windows" }}

@@ -116,6 +116,3 @@ Pour de vrais secrets, chezmoi sait chiffrer des fichiers avec [age](https://www
 - **WSL** : Git réutilise le Credential Manager de Windows ; le presse-papiers de Neovim demande `win32yank` (sinon retire la ligne `clipboard` dans `.chezmoitemplates/nvim-init.lua`).
 - **Windows** : si ton dossier Documents est redirigé par OneDrive, le profil PowerShell est lu ailleurs que dans `~/Documents`. Vérifie avec `$PROFILE`.
 
-## Licence
-
-MIT, voir [LICENSE](LICENSE).
