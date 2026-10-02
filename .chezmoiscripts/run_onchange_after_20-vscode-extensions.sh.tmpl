@@ -1,0 +1,8 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/usr/bin/env bash
+# Installe les extensions VS Code listées dans .chezmoidata/packages.yaml (si `code` est disponible).
+command -v code >/dev/null 2>&1 || exit 0
+for ext in {{ .packages.vscode_extensions | join " " }}; do
+  code --install-extension "$ext" --force >/dev/null 2>&1 || echo "extension $ext : échec"
+done
+{{ end -}}

@@ -1,0 +1,47 @@
+# ~/.zshrc — géré par chezmoi. Pour modifier : `chezmoi edit ~/.zshrc`
+# Réglages propres à la machine : ~/.zshrc.local (non versionné)
+
+{{ template "path.sh" . }}
+
+# --- Historique -------------------------------------------------------------
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_SPACE EXTENDED_HISTORY
+setopt AUTO_CD INTERACTIVE_COMMENTS
+
+# --- Complétion -------------------------------------------------------------
+autoload -Uz compinit && compinit -q
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# gpg a besoin du terminal courant pour demander la passphrase
+export GPG_TTY=$(tty)
+
+{{ template "aliases.sh" . }}
+
+# Option+flèches : saute de mot en mot (Option gauche = Alt dans Ghostty)
+bindkey '^[[1;3D' backward-word
+bindkey '^[[1;3C' forward-word
+
+# --- Outils (chargés seulement s'ils sont installés) -------------------------
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh 2>/dev/null)"
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
+command -v starship >/dev/null 2>&1 && eval "$(starship init zsh)"
+
+# --- Plugins (chemins Homebrew, Debian/Fedora, Arch) -----------------------------
+_zsh_plugin() {
+  local name="$1" dir f
+  for dir in "${HOMEBREW_PREFIX:-/opt/homebrew}/share" /usr/share /usr/share/zsh/plugins; do
+    for f in "$dir/$name/$name.zsh" "$dir/$name/$name.plugin.zsh"; do
+      [ -r "$f" ] && { source "$f"; return 0; }
+    done
+  done
+  return 0
+}
+_zsh_plugin zsh-autosuggestions
+_zsh_plugin zsh-syntax-highlighting   # doit rester en dernier
+unfunction _zsh_plugin
+
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

@@ -1,0 +1,33 @@
+# Ghostty — géré par chezmoi. Référence : `ghostty +show-config --default --docs`
+
+# --- Apparence -----------------------------------------------------------------
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+# Suit l'apparence du système (cf. réglage macOS « apparence automatique »)
+theme = light:catppuccin-latte,dark:catppuccin-mocha
+background-opacity = 0.95
+background-blur-radius = 20
+window-padding-x = 8
+window-padding-y = 6
+macos-titlebar-style = tabs
+cursor-style = block
+cursor-style-blink = false
+mouse-hide-while-typing = true
+
+# --- Comportement ----------------------------------------------------------------
+window-save-state = always
+confirm-close-surface = false
+copy-on-select = clipboard
+scrollback-limit = 25000000
+# Intégration shell : curseur, titre, et `sudo` qui conserve le terminfo de Ghostty
+shell-integration-features = cursor,sudo,title
+
+# Option gauche = Alt (Option+flèches, vim…). Option droite reste libre pour les
+# caractères spéciaux du clavier AZERTY ({ } [ ] | \ ~ @ #).
+macos-option-as-alt = left
+
+# --- Terminal « quick » façon console déroulante -----------------------------------
+# Raccourci global : nécessite d'autoriser Ghostty dans Réglages Système > Confidentialité > Accessibilité
+keybind = global:ctrl+alt+space=toggle_quick_terminal
+quick-terminal-position = top
+quick-terminal-screen = mouse

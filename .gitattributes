@@ -1,0 +1,2 @@
+# LF partout : évite que Git sous Windows casse les scripts .sh et les templates.
+* text=auto eol=lf

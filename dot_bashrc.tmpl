@@ -1,0 +1,32 @@
+# ~/.bashrc — géré par chezmoi. Pour modifier : `chezmoi edit ~/.bashrc`
+# Réglages propres à la machine : ~/.bashrc.local (non versionné)
+
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+{{ template "path.sh" . }}
+
+# --- Historique -------------------------------------------------------------
+HISTSIZE=50000
+HISTFILESIZE=50000
+HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend checkwinsize cdspell autocd 2>/dev/null
+
+# --- Complétion -------------------------------------------------------------
+for f in /usr/share/bash-completion/bash_completion /etc/bash_completion \
+         "${HOMEBREW_PREFIX:-/opt/homebrew}/etc/profile.d/bash_completion.sh"; do
+  [ -r "$f" ] && { . "$f"; break; }
+done
+
+export GPG_TTY=$(tty)
+
+{{ template "aliases.sh" . }}
+
+command -v mise >/dev/null 2>&1 && eval "$(mise activate bash)"
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash 2>/dev/null)"
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
+command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
+
+[ -f "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"

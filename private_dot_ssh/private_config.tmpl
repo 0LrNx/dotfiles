@@ -1,0 +1,13 @@
+# ~/.ssh/config — géré par chezmoi (aucune clé ni secret ici)
+# Hôtes propres à la machine : ajouter des fichiers dans ~/.ssh/config.d/
+Include config.d/*
+
+Host *
+    AddKeysToAgent yes
+{{- if eq .chezmoi.os "darwin" }}
+    IgnoreUnknown UseKeychain
+    UseKeychain yes
+{{- end }}
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    HashKnownHosts yes

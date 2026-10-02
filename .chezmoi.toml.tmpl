@@ -1,0 +1,19 @@
+{{- /* Questions posées une seule fois, à `chezmoi init`. Les réponses sont gardées dans ~/.config/chezmoi/chezmoi.toml */ -}}
+{{- $name := promptStringOnce . "name" "Nom complet (git)" -}}
+{{- $email := promptStringOnce . "email" "Email principal (git)" -}}
+{{- $workEmail := promptStringOnce . "workEmail" "Email pro pour ~/work/ (vide = pas d'identité pro)" "" -}}
+{{- $signingKey := promptStringOnce . "signingKey" "ID de clé GPG pour signer les commits (vide = pas de signature)" "" -}}
+
+{{- /* Détection de WSL : noyau Linux dont la release contient « microsoft » */ -}}
+{{- $osrelease := "" -}}
+{{- if hasKey .chezmoi "kernel" -}}
+{{-   $osrelease = index .chezmoi.kernel "osrelease" | default "" -}}
+{{- end -}}
+{{- $isWSL := $osrelease | lower | contains "microsoft" -}}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    workEmail = {{ $workEmail | quote }}
+    signingKey = {{ $signingKey | quote }}
+    isWSL = {{ $isWSL }}

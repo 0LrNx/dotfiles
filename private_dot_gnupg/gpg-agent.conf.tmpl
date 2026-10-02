@@ -1,0 +1,7 @@
+default-cache-ttl 3600
+max-cache-ttl 28800
+{{- if eq .chezmoi.os "darwin" }}
+pinentry-program {{ if eq .chezmoi.arch "arm64" }}/opt/homebrew/bin/pinentry-mac{{ else }}/usr/local/bin/pinentry-mac{{ end }}
+{{- else if .isWSL }}
+pinentry-program /usr/bin/pinentry-curses
+{{- end }}

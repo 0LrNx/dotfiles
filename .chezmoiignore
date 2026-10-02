@@ -1,0 +1,32 @@
+{{- /* Fichiers du dépôt qui ne sont pas des dotfiles */ -}}
+README.md
+LICENSE
+
+{{- /* Cibles à ne pas déployer selon l'OS (chemins de destination) */}}
+{{ if eq .chezmoi.os "windows" }}
+.zshrc
+.bashrc
+.bash_profile
+.gnupg
+.config/nvim
+.config/powershell
+.config/ghostty
+.config/mise
+{{ else }}
+Documents
+AppData
+{{ end }}
+
+{{ if ne .chezmoi.os "darwin" }}
+Library
+{{ end }}
+
+{{- /* VS Code : ~/.config/Code uniquement sous Linux */}}
+{{ if ne .chezmoi.os "linux" }}
+.config/Code
+{{ end }}
+
+{{- /* Identité pro : fichier déployé seulement si un email pro a été saisi */}}
+{{ if not .workEmail }}
+.config/git/work
+{{ end }}

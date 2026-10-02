@@ -1,0 +1,17 @@
+{{ if ne .chezmoi.os "windows" -}}
+#!/usr/bin/env bash
+# Installe les outils déclarés dans ~/.config/mise/config.toml (Node, Python…).
+# Relancé automatiquement quand ce fichier change.
+# config mise : {{ include "dot_config/mise/config.toml" | sha256sum }}
+set -uo pipefail
+
+{{ template "brew-env.sh" . }}
+export PATH="$HOME/.local/bin:$PATH"
+
+if ! command -v mise >/dev/null 2>&1; then
+  echo "mise n'est pas installé : ignoré (macOS : brew install mise)."
+  exit 0
+fi
+
+mise install --yes || echo "mise install a échoué : relance 'mise install' à la main pour voir l'erreur." >&2
+{{ end -}}

@@ -1,0 +1,125 @@
+# Liste unique des outils à installer, par OS.
+# Modifier ce fichier relance automatiquement le script d'installation correspondant.
+packages:
+  darwin:
+    brews:
+      - git
+      - gh
+      - git-delta
+      - gnupg
+      - pinentry-mac
+      - neovim
+      - ripgrep
+      - fd
+      - fzf
+      - bat
+      - eza
+      - jq
+      - zoxide
+      - starship
+      - tmux
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+      # Outils de développement
+      - mise              # versions de Node, Python… (voir dot_config/mise/config.toml)
+      - lazygit
+      - lazydocker
+      - btop
+      - tlrc              # tldr : exemples d'usage des commandes
+      # Conteneurs sans Docker Desktop : Colima (VM) + CLI docker
+      - colima
+      - docker
+      - docker-compose
+      - docker-buildx
+    casks:
+      - ghostty
+      - raycast           # lanceur / recherche, remplace Spotlight
+      - rectangle         # gestion des fenêtres au clavier
+      - stats             # CPU / mémoire / réseau dans la barre de menus
+      - appcleaner        # désinstalle une app avec ses fichiers
+      - visual-studio-code
+      - font-jetbrains-mono-nerd-font
+      # Ajoute ici ton navigateur et tes autres apps, par ex. : firefox, arc, 1password…
+      # Alternative à Colima : orbstack (cask, gratuit pour un usage personnel).
+
+  # Chaque paquet est installé individuellement : un nom absent de la distribution est ignoré.
+  linux:
+    apt:
+      - git
+      - curl
+      - gnupg
+      - neovim
+      - ripgrep
+      - fd-find
+      - fzf
+      - bat
+      - eza
+      - jq
+      - zoxide
+      - git-delta
+      - tmux
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+    dnf:
+      - git
+      - curl
+      - gnupg2
+      - neovim
+      - ripgrep
+      - fd-find
+      - fzf
+      - bat
+      - eza
+      - jq
+      - zoxide
+      - git-delta
+      - tmux
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+    pacman:
+      - git
+      - curl
+      - gnupg
+      - neovim
+      - ripgrep
+      - fd
+      - fzf
+      - bat
+      - eza
+      - jq
+      - zoxide
+      - git-delta
+      - tmux
+      - zsh
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+      - starship
+
+  windows:
+    winget:
+      - Git.Git
+      - Microsoft.PowerShell
+      - Microsoft.WindowsTerminal
+      - Neovim.Neovim
+      - Starship.Starship
+      - BurntSushi.ripgrep.MSVC
+      - sharkdp.fd
+      - junegunn.fzf
+      - sharkdp.bat
+      - jqlang.jq
+      - GitHub.cli
+      - ajeetdsouza.zoxide
+      - dandavison.delta
+      - eza-community.eza
+      - GnuPG.Gpg4win
+      - Microsoft.VisualStudioCode
+      - DEVCOM.JetBrainsMonoNerdFont
+
+  vscode_extensions:
+    - EditorConfig.EditorConfig
+    - eamodio.gitlens
+    - esbenp.prettier-vscode
+    - redhat.vscode-yaml
+    - ms-vscode-remote.remote-ssh

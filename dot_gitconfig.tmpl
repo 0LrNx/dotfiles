@@ -1,0 +1,78 @@
+# ~/.gitconfig — géré par chezmoi
+[user]
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
+{{- if .signingKey }}
+	signingkey = {{ .signingKey | quote }}
+{{- end }}
+
+[core]
+	editor = nvim
+	pager = delta
+	autocrlf = {{ if eq .chezmoi.os "windows" }}true{{ else }}input{{ end }}
+{{- if eq .chezmoi.os "darwin" }}
+	# Accélère git status dans les gros dépôts
+	fsmonitor = true
+	untrackedCache = true
+{{- end }}
+
+[init]
+	defaultBranch = main
+
+[pull]
+	ff = only
+[push]
+	autoSetupRemote = true
+	followTags = true
+[fetch]
+	prune = true
+[rerere]
+	enabled = true
+[branch]
+	sort = -committerdate
+[help]
+	autocorrect = prompt
+
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	colorMoved = default
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	line-numbers = true
+
+[credential]
+{{- if eq .chezmoi.os "darwin" }}
+	helper = osxkeychain
+{{- else if eq .chezmoi.os "windows" }}
+	helper = manager
+{{- else if .isWSL }}
+	# Réutilise le Git Credential Manager de Windows
+	helper = "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe"
+{{- else }}
+	helper = cache --timeout=7200
+{{- end }}
+
+[alias]
+	st = status -sb
+	co = checkout
+	br = branch
+	lg = log --oneline --graph --decorate -20
+	undo = reset --soft HEAD~1
+{{ if .signingKey }}
+[commit]
+	gpgsign = true
+[tag]
+	gpgsign = true
+{{- if eq .chezmoi.os "windows" }}
+[gpg]
+	program = C:/Program Files (x86)/GnuPG/bin/gpg.exe
+{{- end }}
+{{ end }}
+{{- if .workEmail }}
+# Dépôts sous ~/work/ : identité pro
+[includeIf "gitdir:~/work/"]
+	path = ~/.config/git/work
+{{- end }}

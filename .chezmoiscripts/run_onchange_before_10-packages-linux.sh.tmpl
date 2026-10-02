@@ -1,0 +1,39 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/usr/bin/env bash
+# Installe les paquets Linux (apt, dnf ou pacman, détecté automatiquement).
+# Relancé automatiquement quand .chezmoidata/packages.yaml change.
+set -uo pipefail
+
+SUDO=""
+[ "$(id -u)" -ne 0 ] && SUDO="sudo"
+
+# Installe chaque paquet séparément : un nom absent de la distribution est ignoré.
+install_each() {
+  local cmd="$1"; shift
+  local p
+  for p in "$@"; do
+    if $cmd "$p" >/dev/null 2>&1; then echo "  ok    $p"; else echo "  ignoré $p (indisponible)"; fi
+  done
+}
+
+mkdir -p "$HOME/.local/bin"
+
+if command -v apt-get >/dev/null 2>&1; then
+  $SUDO apt-get update
+  install_each "$SUDO apt-get install -y" {{ .packages.linux.apt | join " " }}
+  # Debian/Ubuntu renomment ces deux binaires
+  command -v fdfind >/dev/null 2>&1 && ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
+  command -v batcat >/dev/null 2>&1 && ln -sf "$(command -v batcat)" "$HOME/.local/bin/bat"
+elif command -v dnf >/dev/null 2>&1; then
+  install_each "$SUDO dnf install -y" {{ .packages.linux.dnf | join " " }}
+elif command -v pacman >/dev/null 2>&1; then
+  install_each "$SUDO pacman -S --needed --noconfirm" {{ .packages.linux.pacman | join " " }}
+else
+  echo "Gestionnaire de paquets non reconnu : installe les outils à la main (voir .chezmoidata/packages.yaml)."
+fi
+
+# starship est absent de beaucoup de dépôts : installeur officiel dans ~/.local/bin
+if ! command -v starship >/dev/null 2>&1; then
+  curl -sS https://starship.rs/install.sh | sh -s -- --yes --bin-dir "$HOME/.local/bin" || true
+fi
+{{ end -}}

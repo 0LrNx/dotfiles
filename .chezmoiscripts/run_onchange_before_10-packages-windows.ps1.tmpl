@@ -1,0 +1,24 @@
+{{ if eq .chezmoi.os "windows" -}}
+# Installe les paquets Windows via winget.
+# Relancé automatiquement quand .chezmoidata/packages.yaml change.
+$ErrorActionPreference = 'Continue'
+
+if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+    Write-Warning "winget introuvable : installe « Programme d'installation d'applications » depuis le Microsoft Store."
+    exit 0
+}
+
+$packages = @(
+{{ range .packages.windows.winget -}}
+    '{{ . }}'
+{{ end -}}
+)
+
+foreach ($id in $packages) {
+    winget list --id $id --exact --accept-source-agreements 2>$null | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "-> $id"
+        winget install --id $id --exact --silent --accept-package-agreements --accept-source-agreements
+    }
+}
+{{ end -}}

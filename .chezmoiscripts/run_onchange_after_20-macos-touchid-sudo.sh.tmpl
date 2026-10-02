@@ -1,0 +1,26 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+# Active Touch ID pour sudo (macOS 14 Sonoma ou plus récent).
+# /etc/pam.d/sudo_local survit aux mises à jour de macOS, contrairement à /etc/pam.d/sudo.
+# Annuler : retirer la ligne pam_tid.so de /etc/pam.d/sudo_local.
+set -uo pipefail
+
+major="$(sw_vers -productVersion | cut -d. -f1)"
+if [ "$major" -lt 14 ]; then
+  echo "Touch ID pour sudo : macOS 14 ou plus requis, ignoré."
+  exit 0
+fi
+
+file=/etc/pam.d/sudo_local
+if [ -f "$file" ] && grep -Eq '^auth[[:space:]]+sufficient[[:space:]]+pam_tid\.so' "$file"; then
+  exit 0
+fi
+
+echo "Activation de Touch ID pour sudo (mot de passe administrateur demandé)…"
+if echo 'auth       sufficient     pam_tid.so' | sudo tee -a "$file" >/dev/null; then
+  echo "Touch ID pour sudo activé."
+else
+  echo "Impossible d'écrire $file. Relance 'chezmoi apply' pour réessayer." >&2
+  exit 1
+fi
+{{ end -}}

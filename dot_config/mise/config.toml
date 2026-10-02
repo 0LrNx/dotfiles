@@ -1,0 +1,9 @@
+# mise — versions globales des outils de développement.
+# Par projet : `mise use node@20` dans un dossier crée un mise.toml local.
+# Voir ce qui est installé : `mise ls`
+
+[tools]
+node = "lts"
+python = "3.13"
+uv = "latest"
+pnpm = "latest"

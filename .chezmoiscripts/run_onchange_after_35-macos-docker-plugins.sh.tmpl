@@ -1,0 +1,21 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+# Rend `docker compose` et `docker buildx` utilisables avec le CLI installé par Homebrew
+# (sans Docker Desktop, les plugins ne sont pas trouvés tant qu'ils ne sont pas liés ici).
+# Colima fournit le moteur : `colima start`, puis `docker ps`.
+set -uo pipefail
+
+{{ template "brew-env.sh" . }}
+command -v brew >/dev/null 2>&1 || exit 0
+prefix="$(brew --prefix)"
+
+mkdir -p "$HOME/.docker/cli-plugins"
+for plugin in docker-compose docker-buildx; do
+  src="$prefix/opt/$plugin/bin/$plugin"
+  if [ -x "$src" ]; then
+    ln -sfn "$src" "$HOME/.docker/cli-plugins/$plugin"
+  else
+    echo "Plugin $plugin introuvable ($src) : ignoré."
+  fi
+done
+{{ end -}}

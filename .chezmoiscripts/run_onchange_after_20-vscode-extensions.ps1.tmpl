@@ -1,0 +1,13 @@
+{{ if eq .chezmoi.os "windows" -}}
+# Installe les extensions VS Code listées dans .chezmoidata/packages.yaml (si `code` est disponible).
+if (-not (Get-Command code -ErrorAction SilentlyContinue)) { exit 0 }
+$extensions = @(
+{{ range .packages.vscode_extensions -}}
+    '{{ . }}'
+{{ end -}}
+)
+foreach ($ext in $extensions) {
+    code --install-extension $ext --force *> $null
+    if ($LASTEXITCODE -ne 0) { Write-Warning "extension $ext : échec" }
+}
+{{ end -}}

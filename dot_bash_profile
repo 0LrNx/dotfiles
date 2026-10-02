@@ -1,0 +1,2 @@
+# ~/.bash_profile — géré par chezmoi. Shells de connexion (Terminal macOS, SSH) : charge ~/.bashrc
+[ -f "$HOME/.bashrc" ] && . "$HOME/.bashrc"

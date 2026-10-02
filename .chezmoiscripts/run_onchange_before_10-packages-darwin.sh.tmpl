@@ -1,0 +1,22 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+# Installe les paquets macOS via Homebrew.
+# Relancé automatiquement quand .chezmoidata/packages.yaml change.
+set -euo pipefail
+
+{{ template "brew-env.sh" . }}
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew est introuvable. Installe-le d'abord (https://brew.sh), puis relance : chezmoi apply" >&2
+  exit 1
+fi
+
+export HOMEBREW_NO_ANALYTICS=1
+brew bundle --file=- <<'EOF'
+{{ range .packages.darwin.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .packages.darwin.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+EOF
+{{ end -}}
