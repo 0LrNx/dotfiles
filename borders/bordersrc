@@ -1,0 +1,3 @@
+#!/bin/bash
+
+borders     active_color=0xffcba6f7     inactive_color=0xff414559     width=10.0     hidpi=on     radius=12.0
