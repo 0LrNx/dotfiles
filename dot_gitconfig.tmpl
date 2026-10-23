@@ -77,8 +77,18 @@
 {{- end }}
 {{ end }}
 {{- if .workEmail }}
-# Dépôts sous ~/work/ : identité pro
+# Identité pro : dépôts sous ~/work/ ou dont un remote est sur Azure DevOps
 [includeIf "gitdir:~/work/"]
+	path = ~/.config/git/work
+[includeIf "hasconfig:remote.*.url:https://dev.azure.com/**"]
+	path = ~/.config/git/work
+[includeIf "hasconfig:remote.*.url:https://*@dev.azure.com/**"]
+	path = ~/.config/git/work
+[includeIf "hasconfig:remote.*.url:git@ssh.dev.azure.com:v3/**"]
+	path = ~/.config/git/work
+[includeIf "hasconfig:remote.*.url:https://*.visualstudio.com/**"]
+	path = ~/.config/git/work
+[includeIf "hasconfig:remote.*.url:*@vs-ssh.visualstudio.com:v3/**"]
 	path = ~/.config/git/work
 {{- end }}
 

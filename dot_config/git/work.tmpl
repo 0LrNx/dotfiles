@@ -1,3 +1,7 @@
-# Identité pro — incluse pour les dépôts sous ~/work/ (voir ~/.gitconfig)
+# Identité pro (Azure DevOps) — incluse pour les dépôts sous ~/work/ et pour tout dépôt
+# dont un remote pointe vers Azure DevOps (voir ~/.gitconfig)
 [user]
+{{- if .workName }}
+	name = {{ .workName | quote }}
+{{- end }}
 	email = {{ .workEmail | quote }}
