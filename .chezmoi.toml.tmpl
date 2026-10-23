@@ -11,6 +11,9 @@
 {{- end -}}
 {{- $isWSL := $osrelease | lower | contains "microsoft" -}}
 
+{{- /* Garde ce dépôt comme source, où qu'il soit cloné (sinon chezmoi cherche ~/.local/share/chezmoi) */}}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
 [data]
     name = {{ $name | quote }}
     email = {{ $email | quote }}
