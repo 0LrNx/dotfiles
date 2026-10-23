@@ -14,5 +14,8 @@
   "git.confirmSync": false,
   "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
   "terminal.integrated.defaultProfile.windows": "PowerShell",
-  "telemetry.telemetryLevel": "off"
+  "telemetry.telemetryLevel": "off",
+  "editor.stickyScroll.enabled": false,
+  "claudeCode.preferredLocation": "panel",
+  "claudeCode.hideOnboarding": true
 }

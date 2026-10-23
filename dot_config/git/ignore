@@ -7,3 +7,4 @@ Desktop.ini
 .idea/
 .direnv/
 .env.local
+**/.claude/settings.local.json

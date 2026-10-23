@@ -81,3 +81,7 @@
 [includeIf "gitdir:~/work/"]
 	path = ~/.config/git/work
 {{- end }}
+
+# Réglages propres à la machine (non versionnés), par ex. gtr : ~/.gitconfig.local
+[include]
+	path = ~/.gitconfig.local
