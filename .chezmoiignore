@@ -10,7 +10,9 @@ README.md
 .config/nvim
 .config/powershell
 .config/ghostty
-.config/mise
+.config/neofetch
+.config/spicetify
+.config/zed
 {{ else }}
 Documents
 AppData

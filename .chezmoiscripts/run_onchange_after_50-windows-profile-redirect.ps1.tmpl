@@ -1,0 +1,14 @@
+{{ if eq .chezmoi.os "windows" -}}
+# Si Documents est redirigé (OneDrive), PowerShell lit son profil ailleurs que dans ~/Documents.
+# On y pose un fichier d'une ligne qui charge le profil géré par chezmoi.
+$docs = [Environment]::GetFolderPath('MyDocuments')
+$home_docs = Join-Path $HOME 'Documents'
+if ($docs -and ($docs -ne $home_docs)) {
+    foreach ($dir in 'PowerShell', 'WindowsPowerShell') {
+        $managed = Join-Path (Join-Path $home_docs $dir) 'Microsoft.PowerShell_profile.ps1'
+        $target = Join-Path (Join-Path $docs $dir) 'Microsoft.PowerShell_profile.ps1'
+        New-Item -ItemType Directory -Force (Split-Path $target) | Out-Null
+        Set-Content -Path $target -Value ". '$managed'" -Encoding UTF8
+    }
+}
+{{ end -}}

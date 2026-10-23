@@ -116,6 +116,11 @@ packages:
       - GnuPG.Gpg4win
       - Microsoft.VisualStudioCode
       - DEVCOM.JetBrainsMonoNerdFont
+      - jdx.mise                      # versions de Node, Python… (dot_config/mise/config.toml)
+      - JesseDuffield.lazygit
+      - aristocratos.btop4win
+      - tldr-pages.tlrc
+      - Microsoft.PowerToys           # FancyZones (fenêtres), PowerToys Run (lanceur)
 
   vscode_extensions:
     - EditorConfig.EditorConfig

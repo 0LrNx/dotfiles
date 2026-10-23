@@ -14,11 +14,16 @@ $packages = @(
 {{ end -}}
 )
 
+# Une seule lecture de la liste installée (un `winget list` par paquet est très lent).
+$installed = (winget list --accept-source-agreements 2>$null | Out-String)
+
 foreach ($id in $packages) {
-    winget list --id $id --exact --accept-source-agreements 2>$null | Out-Null
-    if ($LASTEXITCODE -ne 0) {
+    if ($installed -notmatch [regex]::Escape($id)) {
         Write-Host "-> $id"
         winget install --id $id --exact --silent --accept-package-agreements --accept-source-agreements
     }
 }
+
+# Rafraîchit le PATH de cette session : les scripts suivants (code, mise…) voient les nouveaux outils.
+$env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [Environment]::GetEnvironmentVariable('Path', 'User')
 {{ end -}}

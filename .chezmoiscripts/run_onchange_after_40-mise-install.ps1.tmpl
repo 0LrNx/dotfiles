@@ -1,0 +1,14 @@
+{{ if eq .chezmoi.os "windows" -}}
+# Installe les outils déclarés dans ~/.config/mise/config.toml (Node, Python…).
+# Relancé automatiquement quand ce fichier change.
+# config mise : {{ include "dot_config/mise/config.toml" | sha256sum }}
+$env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [Environment]::GetEnvironmentVariable('Path', 'User')
+
+if (-not (Get-Command mise -ErrorAction SilentlyContinue)) {
+    Write-Warning "mise n'est pas installé : ignoré (winget install jdx.mise)."
+    exit 0
+}
+
+mise install --yes
+if ($LASTEXITCODE -ne 0) { Write-Warning "mise install a échoué : relance 'mise install' à la main pour voir l'erreur." }
+{{ end -}}

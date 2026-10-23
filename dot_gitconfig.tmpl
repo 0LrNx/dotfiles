@@ -10,10 +10,15 @@
 	editor = nvim
 	pager = delta
 	autocrlf = {{ if eq .chezmoi.os "windows" }}true{{ else }}input{{ end }}
-{{- if eq .chezmoi.os "darwin" }}
+{{- if or (eq .chezmoi.os "darwin") (eq .chezmoi.os "windows") }}
 	# Accélère git status dans les gros dépôts
 	fsmonitor = true
 	untrackedCache = true
+{{- end }}
+{{- if eq .chezmoi.os "windows" }}
+	longpaths = true
+	# OpenSSH de Windows (partage le service ssh-agent), pas celui livré avec Git
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 {{- end }}
 
 [init]

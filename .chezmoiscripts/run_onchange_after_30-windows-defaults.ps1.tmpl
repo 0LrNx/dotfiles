@@ -1,0 +1,42 @@
+{{ if eq .chezmoi.os "windows" -}}
+# Réglages Windows (équivalent du script `defaults write` de macOS). HKCU uniquement, sans droits admin.
+# Relancé quand ce fichier change. Retire ce que tu ne veux pas ; annule en remettant la valeur par défaut.
+$ErrorActionPreference = 'Continue'
+
+function Set-Reg($path, $name, $value) {
+    if (-not (Test-Path $path)) { New-Item -Path $path -Force | Out-Null }
+    Set-ItemProperty -Path $path -Name $name -Value $value -Type DWord
+}
+
+$adv = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+Set-Reg $adv 'HideFileExt' 0          # afficher les extensions
+Set-Reg $adv 'Hidden' 1               # afficher les fichiers cachés
+Set-Reg $adv 'LaunchTo' 1             # l'Explorateur s'ouvre sur « Ce PC »
+
+$theme = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize'
+Set-Reg $theme 'AppsUseLightTheme' 0  # thème sombre
+Set-Reg $theme 'SystemUsesLightTheme' 0
+
+Set-Reg 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search' 'BingSearchEnabled' 0   # pas de Bing dans le menu Démarrer
+Set-Reg 'HKCU:\Software\Policies\Microsoft\Windows\Explorer' 'DisableSearchBoxSuggestions' 1
+
+# Clavier : répétition rapide
+Set-ItemProperty 'HKCU:\Control Panel\Keyboard' -Name 'KeyboardDelay' -Value '0'
+Set-ItemProperty 'HKCU:\Control Panel\Keyboard' -Name 'KeyboardSpeed' -Value '31'
+
+# Captures d'écran dans ~/Screenshots (dossier par défaut de Win+Impr écran)
+$shots = Join-Path $HOME 'Screenshots'
+New-Item -ItemType Directory -Force $shots | Out-Null
+Set-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders' -Name '{B7BEDE81-DF94-4682-A7D8-57A52620B86F}' -Value $shots -Type ExpandString
+
+# ssh-agent : démarrage automatique (nécessite un terminal administrateur ; sinon un avertissement s'affiche)
+try {
+    Set-Service ssh-agent -StartupType Automatic -ErrorAction Stop
+    Start-Service ssh-agent -ErrorAction Stop
+} catch {
+    Write-Warning "ssh-agent non activé (droits admin requis) : lance en administrateur « Set-Service ssh-agent -StartupType Automatic; Start-Service ssh-agent »."
+}
+
+# Redémarre l'Explorateur pour appliquer les changements
+Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+{{ end -}}
